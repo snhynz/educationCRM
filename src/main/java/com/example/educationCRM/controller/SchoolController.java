@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("school")
 public class SchoolController {
@@ -20,5 +22,27 @@ public class SchoolController {
         this.schoolService.addSchool(schoolDTO.getName());
         return new ResponseEntity<>("Başarılı işlem",
                 HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity updateSchool(
+            @RequestBody SchoolDTO schoolDTO){
+      this.schoolService.updateSchool(schoolDTO);
+        return new ResponseEntity<>("Başarılı işlem",
+                HttpStatus.CREATED);
+    }
+
+    @DeleteMapping
+    public ResponseEntity deleteSchool(
+            @RequestParam Long id){
+      this.schoolService.deleteSchool(id);
+        return new ResponseEntity<>("Başarılı işlem",
+                HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<SchoolDTO>> findAll(){
+       return new ResponseEntity<>(this.schoolService.findAll()
+       ,HttpStatus.OK);
     }
 }

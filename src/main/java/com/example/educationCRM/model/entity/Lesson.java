@@ -17,6 +17,8 @@ public class Lesson extends BaseEntity {
     @ManyToMany(mappedBy = "lessons")
     private List<Student> students;
 
+
+
     public String getName() {
         return name;
     }

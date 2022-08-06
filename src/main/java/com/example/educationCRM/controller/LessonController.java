@@ -4,6 +4,7 @@ import com.example.educationCRM.model.dto.LessonDTO;
 import com.example.educationCRM.service.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,4 +20,15 @@ public class LessonController {
         this.lessonService.addLesson(lessonDTO.getName());
     }
 
+    @PutMapping
+    public ResponseEntity update(@RequestBody LessonDTO lessonDTO){
+        this.lessonService.updateLesson(lessonDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping
+    public ResponseEntity delete(@RequestBody Long id){
+        this.lessonService.deleteLesson(id);
+        return ResponseEntity.ok().build();
+    }
 }
