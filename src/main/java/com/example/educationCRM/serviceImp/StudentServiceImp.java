@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentServiceImp implements StudentService {
@@ -35,7 +35,7 @@ public class StudentServiceImp implements StudentService {
 
     @Override
     @Transactional
-    public void saveStudent(StudentDTO studentDTO) throws ParseException  {
+    public void saveStudent(StudentDTO studentDTO)   {
         Student student = new Student();
            student.setBirthDate(studentDTO.getBirthDate());
             student.setNumber(studentDTO.getNumber());
@@ -55,22 +55,24 @@ public class StudentServiceImp implements StudentService {
 
     @Override
     @Transactional
-    public void updateStudent(StudentDTO studentDTO)throws ParseException {
-        Student student = new Student();
-        student.setBirthDate(studentDTO.getBirthDate());
-        student.setNumber(studentDTO.getNumber());
-        student.setName(studentDTO.getName());
-        student.setSurname(studentDTO.getSurname());
-        student.setCreatedDate(studentDTO.getCreatedDate());
-        StudentClass studentClass = this.studentClassRepository
-                .findById(studentDTO.getStudentClassId())
-                .orElse(null);
-        School school = this.schoolRepository
-                .findById(studentDTO.getSchoolId())
-                .orElse(null);
-        student.setSchool(school);
-        student.setStudentClass(studentClass);
-        this.studentRepository.save(student);
+    public void updateStudent(StudentDTO studentDTO){
+       Optional<Student> studentOptional =
+               this.studentRepository.findById(studentDTO.getId());
+       if (studentOptional.isPresent()){
+           Student student = studentOptional.get();
+           student.setName(studentDTO.getName());
+           student.setSurname(studentDTO.getSurname());
+           student.setNumber(studentDTO.getNumber());
+           student.setBirthDate(studentDTO.getBirthDate());StudentClass studentClass = this.studentClassRepository
+                   .findById(studentDTO.getStudentClassId())
+                   .orElse(null);
+           School school = this.schoolRepository
+                   .findById(studentDTO.getSchoolId())
+                   .orElse(null);
+           student.setSchool(school);
+           student.setStudentClass(studentClass);
+           this.studentRepository.save(student);
+       }
     }
 
     @Override
