@@ -2,14 +2,18 @@ package com.example.educationCRM.serviceImp;
 
 import com.example.educationCRM.helpers.ModelMapperHelpers;
 import com.example.educationCRM.model.dto.TeacherDTO;
+import com.example.educationCRM.model.dto.TeacherStudentDTO;
 import com.example.educationCRM.model.entity.Lesson;
 import com.example.educationCRM.model.entity.School;
+import com.example.educationCRM.model.entity.Student;
 import com.example.educationCRM.model.entity.Teacher;
 import com.example.educationCRM.repository.LessonRepository;
 import com.example.educationCRM.repository.SchoolRepository;
 
+import com.example.educationCRM.repository.StudentRepository;
 import com.example.educationCRM.repository.TeacherRepository;
 
+import com.example.educationCRM.service.StudentService;
 import com.example.educationCRM.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +31,8 @@ public class TeacherServiceImp implements TeacherService {
     @Autowired
     private ModelMapperHelpers modelMapperHelpers;
 
+    @Autowired
+    private StudentService studentService;
     @Autowired
     private LessonRepository lessonRepository;
     @Autowired
@@ -85,5 +91,18 @@ public class TeacherServiceImp implements TeacherService {
         return this.modelMapperHelpers.mapAll(
                 (List<Teacher>)this.teacherRepository.findAll()
                 ,TeacherDTO.class);
+    }
+
+    @Override
+    @Transactional
+    public void addStudents(TeacherStudentDTO teacherStudentDTO) {
+        Teacher teacher = this.teacherRepository
+                .findById(teacherStudentDTO.getTeacherId()).get();
+
+        for (Long id: teacherStudentDTO.getStudentIds()){
+            Student s = studentService.findById(id);
+            teacher.getStudents().add(s);
+        }
+        this.teacherRepository.save(teacher);
     }
 }

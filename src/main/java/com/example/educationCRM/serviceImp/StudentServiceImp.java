@@ -1,6 +1,7 @@
 package com.example.educationCRM.serviceImp;
 
 import com.example.educationCRM.model.dto.StudentDTO;
+import com.example.educationCRM.model.dto.StudentInformationDTO;
 import com.example.educationCRM.model.entity.School;
 import com.example.educationCRM.model.entity.Student;
 import com.example.educationCRM.model.entity.StudentClass;
@@ -87,5 +88,24 @@ public class StudentServiceImp implements StudentService {
         return this.modelMapperHelpers
                 .mapAll((List<Student>)studentRepository.findAll(),StudentDTO.class);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<StudentInformationDTO> getStudentBySchoolName(String schoolName) {
+        return this.studentRepository.findStudentBySchool_Name(schoolName);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<StudentInformationDTO> getStudentBySchoolNameWithSQL(String schoolName) {
+        return this.studentRepository.getStudentBySchool_Name(schoolName);
+    }
+    @Transactional
+    @Override
+    public Student findById(Long id) {
+        return ;
+    }
+
+
 
 }

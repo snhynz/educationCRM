@@ -4,7 +4,7 @@ public class GradeDTO {
     private Long id;
     private Double grade;
     private Long student_id;
-    private TeacherDTO teacherDTO;
+    private Long teacher_id;
 
     public Long getId() {
         return id;
@@ -22,13 +22,12 @@ public class GradeDTO {
         this.grade = grade;
     }
 
-
-    public TeacherDTO getTeacherDTO() {
-        return teacherDTO;
+    public Long getTeacher_id() {
+        return teacher_id;
     }
 
-    public void setTeacherDTO(TeacherDTO teacherDTO) {
-        this.teacherDTO = teacherDTO;
+    public void setTeacher_id(Long teacher_id) {
+        this.teacher_id = teacher_id;
     }
 
     public Long getStudent_id() {

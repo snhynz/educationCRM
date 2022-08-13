@@ -11,4 +11,6 @@ public interface GradeService {
     public void saveGrade(GradeDTO gradeDTO);
     public void deleteGrate(Long id);
     public List<GradeDTO> findAll();
+    public List<Object>
+    getGradesByLessonName(String lessonName);
 }

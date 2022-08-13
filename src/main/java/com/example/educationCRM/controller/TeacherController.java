@@ -1,6 +1,7 @@
 package com.example.educationCRM.controller;
 
 import com.example.educationCRM.model.dto.TeacherDTO;
+import com.example.educationCRM.model.dto.TeacherStudentDTO;
 import com.example.educationCRM.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,15 @@ public class TeacherController {
     public void deleteTeacher(@PathVariable(name="id") Long teacherId){
         this.teacherService.deleteTeacher(teacherId);
     }
-
+    @GetMapping
     public List<TeacherDTO> findAll(){
         return this.teacherService.findAll();
     }
+
+    @PutMapping("/addStudents")
+    public void addStudents
+            (@RequestBody TeacherStudentDTO teacherStudentDTO){
+        this.teacherService.addStudents(teacherStudentDTO);
+    }
+
 }
